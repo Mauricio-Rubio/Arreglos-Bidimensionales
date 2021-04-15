@@ -1,10 +1,12 @@
 package padrón;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Sistema {
 
     Padron usuario;
+    ArrayList<Persona> personas = new ArrayList<>();
     Scanner Ssc = new Scanner(System.in);
     Scanner sc = new Scanner(System.in);
     Funciones.FuncionesStatic funciones;
@@ -69,6 +71,34 @@ public class Sistema {
     }
 
     public void completarPadron() {
+        System.out.println("Complete lo siguientes datos");
+        System.out.println("Ingresa el numero de personas a capturar");
+        int nPer = sc.nextInt();
+        String[][] personasTemp = new String[nPer][7];
+        String[][] datosPersonalesTemp = new String[nPer][4];
+        String[][] adicionesTemp = new String[nPer][3];
+        for (int i = 0; i < nPer; i++) {
+            System.out.println("Ingrese el o los nombres de pila ");
+            personasTemp[i][0] = Ssc.nextLine();
+            System.out.println("Ingrese el apellido paterno");
+            personasTemp[i][1] = Ssc.nextLine();
+            System.out.println("Ingrese el apellido materno");
+            personasTemp[i][2] = Ssc.nextLine();
+            Persona userTemp;
+            System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaa");
+            personasTemp [i][6] = Ssc.nextLine();
+            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp [i][6]));
+
+        }
+        /*for(int j = 0; j <nombresTemp.length; j++){
+            for(int x = 0; x<nombresTemp[j].length; x++){
+                //System.out.printf(nombresTemp[j][x]+ " \n");
+                System.out.println(personas.get(j)+ " ");
+            }
+        }*/
+        for (int x = 0; x < personas.size(); x++) {
+            System.out.println(personas.get(x) + " ");
+        }
 
     }
 

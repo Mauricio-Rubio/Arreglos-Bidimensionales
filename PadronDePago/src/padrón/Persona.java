@@ -1,4 +1,5 @@
 package padrón;
+
 public class Persona {
 
     private String nombre;
@@ -6,15 +7,20 @@ public class Persona {
     private String ApellidoM;
     private String nacimiento;
     private String RFC;
-    
-    
-    public Persona(String nombre, String ApellidoP, String ApellidoM, String edad){
+
+    public Persona(String nombre, String ApellidoP, String ApellidoM, String edad) {
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
         this.nacimiento = edad;
     }
-    
+
+    public Persona(String nombre, String ApellidoP, String ApellidoM) {
+        this.nombre = nombre;
+        this.ApellidoP = ApellidoP;
+        this.ApellidoM = ApellidoM;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -39,11 +45,11 @@ public class Persona {
         this.ApellidoM = ApellidoM;
     }
 
-    public String getEdad() {
+    public String getNacimiento() {
         return nacimiento;
     }
 
-    public void setEdad(String edad) {
+    public void setNacimiento(String edad) {
         this.nacimiento = edad;
     }
 
@@ -53,6 +59,11 @@ public class Persona {
 
     public void setRFC(String RFC) {
         this.RFC = RFC;
+    }
+
+    @Override
+    public String toString() {
+        return getNombre() + " " + getApellidoP()+ " " + getApellidoM()+" "+getNacimiento();
     }
 
 }
