@@ -10,6 +10,7 @@ public class Sistema {
     Funciones.FuncionesStatic funciones;
     Cifrador cifrar = new Cifrador();
     int eleccion = 0;
+    int n = 0;
 
     public void menu() {
         do {
@@ -47,12 +48,28 @@ public class Sistema {
         ps2 = cifrar.cifrar(ps2);
         if (funciones.validarPsRegistro(ps1, ps2)) {
             System.out.println("Contraseña coincide");
+            usuario = new Padron(nombre, ps1);
+            usuario.setId(String.valueOf(funciones.generarID(usuario)));
+            System.out.println(usuario);
+            completarPadron();
         } else {
             System.out.println("Revisa tu contraseña");
+            n++;
+            /**
+             * Este segundo if, nos ayudará a controlar la recursividad de este
+             * método, evitándonos crear un bucle.
+             */
+            if (n < 3) {
+                crearPadron();
+            } else {
+                return;
+            }
         }
-        usuario = new Padron(nombre, ps1);
-        usuario.setId(String.valueOf(funciones.generarID(usuario)));
-        System.out.println(usuario);
+
+    }
+
+    public void completarPadron() {
+
     }
 
 }
