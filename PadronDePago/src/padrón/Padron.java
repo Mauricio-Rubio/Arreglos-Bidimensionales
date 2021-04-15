@@ -8,6 +8,33 @@ public class Padron {
     private String password;
     Scanner sc = new Scanner(System.in);
     Scanner Ssc = new Scanner(System.in);
+    private String [ ] [ ] nombres;
+    private String [ ] [ ] datosPersonales;
+    private String [ ] [ ] adiciones;
+
+    public String[][] getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String[][] nombres) {
+        this.nombres = nombres;
+    }
+
+    public String[][] getDatosPersonales() {
+        return datosPersonales;
+    }
+
+    public void setDatosPersonales(String[][] datosPersonales) {
+        this.datosPersonales = datosPersonales;
+    }
+
+    public String[][] getAdiciones() {
+        return adiciones;
+    }
+
+    public void setAdiciones(String[][] adiciones) {
+        this.adiciones = adiciones;
+    }
     
     public Padron(String nombre, String password){
         this.password = password;

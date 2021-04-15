@@ -14,4 +14,12 @@ public class FuncionesStatic {
         System.out.println(padron.getPassword().charAt(0));
         return String.valueOf(idTemp);
     }
+
+    public static boolean validarPsRegistro(String c1, String c2) {
+        if (c1.equals(c2)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
