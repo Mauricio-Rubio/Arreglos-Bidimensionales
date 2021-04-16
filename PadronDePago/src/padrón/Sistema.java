@@ -1,7 +1,11 @@
 package padrón;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import sun.security.util.Length;
 
 public class Sistema {
 
@@ -52,7 +56,7 @@ public class Sistema {
             System.out.println("Contraseña coincide");
             usuario = new Padron(nombre, ps1);
             usuario.setId(String.valueOf(funciones.generarID(usuario)));
-            System.out.println(usuario);
+            //System.out.println(usuario);
             completarPadron();
         } else {
             System.out.println("Revisa tu contraseña");
@@ -86,20 +90,113 @@ public class Sistema {
             personasTemp[i][2] = Ssc.nextLine();
             Persona userTemp;
             System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaa");
-            personasTemp [i][6] = Ssc.nextLine();
-            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp [i][6]));
+            personasTemp[i][6] = Ssc.nextLine();
+            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6]));
 
         }
+        usuario.setNombres(personasTemp);
+        BaseDatos(usuario);
+        BaseDatosTablas(usuario);
         /*for(int j = 0; j <nombresTemp.length; j++){
             for(int x = 0; x<nombresTemp[j].length; x++){
                 //System.out.printf(nombresTemp[j][x]+ " \n");
                 System.out.println(personas.get(j)+ " ");
             }
         }*/
-        for (int x = 0; x < personas.size(); x++) {
-            System.out.println(personas.get(x) + " ");
+        for (int x = 0;
+                x < personas.size();
+                x++) {
+            // System.out.println(personas.get(x) + " ");
         }
 
+    }
+
+    public void BaseDatos(Padron usuario) {
+        File archivo; //manipula el archivo
+        FileWriter escribir; // escribir en el archivo
+        PrintWriter linea; // 
+        archivo = new File("padron.txt");
+        if (!archivo.exists()) {
+            try {
+                archivo.createNewFile();
+                escribir = new FileWriter(archivo, true);
+                linea = new PrintWriter(escribir);
+                //escribir en el archivo
+                linea.println(usuario.getId());
+                linea.println(usuario.getNombre());
+                linea.println(usuario.getPassword());//Esta cifrada al acceder al método getContraseña
+                //System.out.println(usuario.getId());
+                //System.out.println(contraseña2);
+                //linea.println();
+                linea.close();
+                escribir.close();
+            } catch (Exception e) {
+            }
+        } else {
+            try {
+                escribir = new FileWriter(archivo, true);
+                linea = new PrintWriter(escribir);
+                //escribir en el archivo
+                linea.println(usuario.getId());
+                linea.println(usuario.getNombre());
+                linea.println(usuario.getPassword());;
+                linea.close();
+                escribir.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public void BaseDatosTablas(Padron usuario) {
+        File archivo; //manipula el archivo
+        FileWriter escribir; // escribir en el archivo
+        PrintWriter linea; // 
+        archivo = new File("padronDatos.txt");
+        String[][] personasTemp = usuario.getNombres();
+        System.out.println("Arreglo: " + personasTemp[0][0]);
+        if (!archivo.exists()) {
+            n = 0;
+            try {
+                archivo.createNewFile();
+                escribir = new FileWriter(archivo, true);
+                linea = new PrintWriter(escribir);
+                //escribir en el archivo
+                for (int i = 0; i < personasTemp.length; i++) {
+                    linea.write(personasTemp[i][n]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 1]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 2]);
+                    linea.write(",");
+                }
+
+                /*linea.write(usuario.getId());
+                linea.write(",");
+                linea.write(usuario.getNombre());
+                linea.write(",");
+                linea.write(usuario.getPassword());*///Esta cifrada al acceder al método getContraseña
+                //linea.println();
+                linea.close();
+                escribir.close();
+            } catch (Exception e) {
+            }
+        } else {
+            try {
+                escribir = new FileWriter(archivo, true);
+                linea = new PrintWriter(escribir);
+                for (int i = 0; i < personasTemp.length; i++) {
+                    linea.write(personasTemp[i][n]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 1]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 2]);
+                    linea.write(",");
+                }
+                linea.close();
+                escribir.close();
+            } catch (Exception e) {
+            }
+        }
     }
 
 }

@@ -11,7 +11,6 @@ public class FuncionesStatic {
         String nombre = String.valueOf(padron.getNombre().charAt(0));
         String psw = String.valueOf(padron.getPassword().charAt(0));
         String idTemp = (nombre.toUpperCase() + psw + String.valueOf(idAleatorio));
-        System.out.println(padron.getPassword().charAt(0));
         return String.valueOf(idTemp);
     }
 
