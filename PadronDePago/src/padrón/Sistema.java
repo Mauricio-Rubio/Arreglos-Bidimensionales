@@ -89,9 +89,10 @@ public class Sistema {
             System.out.println("Ingrese el apellido materno");
             personasTemp[i][2] = Ssc.nextLine();
             Persona userTemp;
-            System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaa");
+            System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
             personasTemp[i][6] = Ssc.nextLine();
             personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6]));
+            personasTemp[i][3] = funciones.calMes(personas.get(i));
 
         }
         usuario.setNombres(personasTemp);
@@ -108,6 +109,7 @@ public class Sistema {
                 x++) {
             // System.out.println(personas.get(x) + " ");
         }
+        
 
     }
 
@@ -168,6 +170,8 @@ public class Sistema {
                     linea.write(",");
                     linea.write(personasTemp[i][n + 2]);
                     linea.write(",");
+                    linea.write(personasTemp[i][n + 3]);
+                    linea.write(",");
                 }
 
                 /*linea.write(usuario.getId());
@@ -190,6 +194,8 @@ public class Sistema {
                     linea.write(personasTemp[i][n + 1]);
                     linea.write(",");
                     linea.write(personasTemp[i][n + 2]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 3]);
                     linea.write(",");
                 }
                 linea.close();

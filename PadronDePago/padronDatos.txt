@@ -1,1 +1,1 @@
-Mau,Rubio,Haro,Mari,Haro,Gar,Mauricio,Haro,Rubio,
+M,R,H,02,M,H,G,03,M,R,H,08,M,H,G,12,B,S,R,01,D,R,H,01,R,R,H,08,

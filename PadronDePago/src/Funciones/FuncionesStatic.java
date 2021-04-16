@@ -21,4 +21,10 @@ public class FuncionesStatic {
             return false;
         }
     }
+    
+    public static String calMes(Persona persona){
+        String res = persona.getNacimiento().substring(2, 4);
+        return res;
+    }
+    
 }
