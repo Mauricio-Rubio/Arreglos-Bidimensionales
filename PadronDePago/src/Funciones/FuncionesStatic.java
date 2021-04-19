@@ -22,8 +22,16 @@ public class FuncionesStatic {
         }
     }
     
-    public static String calMes(Persona persona){
-        String res = persona.getNacimiento().substring(2, 4);
+    public static String calMes(String nacimiento){
+        String res = nacimiento.substring(2, 4);
+        return res;
+    }
+    public static String calDias(String nacimiento){
+        String res = nacimiento.substring(0, 2);
+        return res;
+    }
+    public static String calAño(String nacimiento){
+        String res = nacimiento.substring(4, 8);
         return res;
     }
     

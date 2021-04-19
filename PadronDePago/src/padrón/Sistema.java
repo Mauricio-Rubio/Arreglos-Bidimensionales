@@ -1,5 +1,6 @@
 package padrón;
 
+import Funciones.FuncionesStatic;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +21,7 @@ public class Sistema {
     Scanner Ssc = new Scanner(System.in);
     Scanner sc = new Scanner(System.in);
     Funciones.FuncionesStatic funciones;
-    String [ ] arregloGenerado;
+    String[] arregloGenerado;
     Cifrador cifrar = new Cifrador();
     int eleccion = 0;
     int n = 0;
@@ -58,8 +59,8 @@ public class Sistema {
             usuarioLogin = datosLogin();
             if (usuarioLogin != null && generarUser(usuarioLogin.getId())) {
                 System.out.println("Bienvenido al padron: " + usuarioLogin.getNombre());
-                for(int y = 0; y<arregloGenerado.length; y++){
-                    System.out.println("------>"+arregloGenerado[y]);
+                for (int y = 0; y < arregloGenerado.length; y++) {
+                    System.out.println("------>" + arregloGenerado[y]);
                 }
                 opcionesPadron(usuarioLogin);
                 break;
@@ -154,9 +155,12 @@ public class Sistema {
             Persona userTemp;
             System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
             personasTemp[i][6] = Ssc.nextLine();
-            personasTemp[i][3] = funciones.calMes(personas.get(i));
-            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6]));
-            System.out.println("Mes : " + personasTemp[i][3]);
+            personasTemp[i][3] = funciones.calMes(personasTemp[i][6]);
+            personasTemp[i][4] = funciones.calDias(personasTemp[i][6]);
+            personasTemp[i][5] = funciones.calAño(personasTemp[i][6]);
+            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5]));
+
+            System.out.println(personas.get(0));
 
         }
         usuario.setNombres(personasTemp);
@@ -332,6 +336,12 @@ public class Sistema {
                     linea.write(",");
                     linea.write(personasTemp[i][n + 3]);
                     linea.write(",");
+                    linea.write(personasTemp[i][n + 4]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 5]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 6]);
+                    linea.write(",");
                 }
 
                 /*linea.write(usuario.getId());
@@ -358,6 +368,12 @@ public class Sistema {
                     linea.write(personasTemp[i][n + 2]);
                     linea.write(",");
                     linea.write(personasTemp[i][n + 3]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 4]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 5]);
+                    linea.write(",");
+                    linea.write(personasTemp[i][n + 6]);
                     linea.write(",");
                 }
                 linea.close();

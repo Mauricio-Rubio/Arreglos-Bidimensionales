@@ -7,12 +7,25 @@ public class Persona {
     private String ApellidoM;
     private String nacimiento;
     private String RFC;
+    private String mes;
+    private String dia;
+    private String año;
 
     public Persona(String nombre, String ApellidoP, String ApellidoM, String edad) {
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
         this.nacimiento = edad;
+    }
+
+    public Persona(String nombre, String ApellidoP, String ApellidoM, String nacimiento, String mes, String dia, String año) {
+        this.nombre = nombre;
+        this.ApellidoP = ApellidoP;
+        this.ApellidoM = ApellidoM;
+        this.nacimiento = nacimiento;
+        this.mes = mes;
+        this.dia = dia;
+        this.año = año;
     }
 
     public Persona(String nombre, String ApellidoP, String ApellidoM) {
@@ -63,7 +76,8 @@ public class Persona {
 
     @Override
     public String toString() {
-        return getNombre() + " " + getApellidoP()+ " " + getApellidoM()+" "+getNacimiento();
+        return "Persona{" + "nombre=" + nombre + ", ApellidoP=" + ApellidoP + ", ApellidoM=" + ApellidoM + ", nacimiento=" + nacimiento + ", RFC=" + RFC + ", mes=" + mes + ", dia=" + dia + ", anio=" + año + '}';
     }
+
 
 }
