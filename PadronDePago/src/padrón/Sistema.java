@@ -1,10 +1,16 @@
 package padrón;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sun.security.util.Length;
 
 public class Sistema {
@@ -32,6 +38,7 @@ public class Sistema {
                     crearPadron();
                     break;
                 case 2:
+                    login();
                     break;
                 case 3:
                     break;
@@ -41,6 +48,58 @@ public class Sistema {
 
         } while (eleccion != 3);
 
+    }
+
+    public void login() {
+        int i = 0;
+        do {
+            Padron usuarioLogin;
+            usuarioLogin = datosLogin();
+            if (usuarioLogin != null) {
+                System.out.println("Bienvenido al padron: " + usuarioLogin.getNombre());
+                opcionesPadron(usuarioLogin);
+                break;
+            } else {
+                System.out.println("Error en login, revisa tus datos");
+            }
+            i++;
+        } while (i < 3);
+    }
+
+    public Padron datosLogin() {
+        String contraseñaUser, idUser;
+        System.out.println("Ingresa tu id");
+        idUser = Ssc.nextLine();
+        System.out.println("Ingresa tu contraseña");
+        contraseñaUser = Ssc.nextLine();
+        if (buscarUser(idUser, contraseñaUser)) {
+            return usuario;
+        }
+        return null;
+    }
+
+    public void opcionesPadron(Padron user) {
+        eleccion = 0;
+        System.out.println("1.- Mostrar");
+        System.out.println("2.- Agregar");
+        System.out.println("3.- Corregir");
+        System.out.println("4.- Salir");
+        eleccion = sc.nextInt();
+        switch (eleccion) {
+            case 1:
+                crearPadron();
+                break;
+            case 2:
+                login();
+                break;
+            case 3:
+                break;
+            case 4:
+                System.out.println("Usuario saliendo");
+                break;
+            default:
+                System.out.println("Ingresa alguna opcion");
+        }
     }
 
     public void crearPadron() {
@@ -112,6 +171,54 @@ public class Sistema {
             // System.out.println(personas.get(x) + " ");
         }
 
+    }
+
+    public boolean buscarUser(String idUser, String contraseñaUser) {
+        Cifrador cifrado = new Cifrador();
+        String contraseñaCifrada = cifrado.cifrar(contraseñaUser);
+        File archivo;  //manipular un archivo
+        FileReader leer; //lector
+        String cadena, idUsuario = "", contraseña = "", nombre = "";
+        BufferedReader almacenamiento;
+        archivo = new File("padron.txt");
+        try {
+            leer = new FileReader(archivo);
+            almacenamiento = new BufferedReader(leer);
+            cadena = "";
+            //nombre = null;
+            do {
+                try {
+                    cadena = almacenamiento.readLine();
+                    idUsuario = cadena;
+                    cadena = almacenamiento.readLine();
+                    nombre = cadena;
+                    cadena = almacenamiento.readLine();
+                    contraseña = cadena;
+
+                    if (cadena != null && contraseña.equals(contraseñaCifrada) && idUser.equals(idUsuario)) {
+                        Padron userBusqueda = new Padron(nombre, contraseña, idUsuario);
+                        leer.close();
+                         usuario = userBusqueda;
+                        return true;
+                    }
+                } catch (IOException ex) {
+                    System.out.println("error encontrar" + ex);
+
+                    Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } while (cadena != null || (idUser.equals(nombre) && contraseña.equals(contraseñaCifrada)));
+            try {
+                almacenamiento.close();
+                leer.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return true;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Usuario no existe");
+        return false;
     }
 
     public void BaseDatos(Padron usuario) {

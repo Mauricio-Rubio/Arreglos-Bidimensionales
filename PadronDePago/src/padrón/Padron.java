@@ -3,14 +3,29 @@ package padrón;
 import java.util.Scanner;
 
 public class Padron {
+
     private String nombre;
     private String id;
     private String password;
     Scanner sc = new Scanner(System.in);
     Scanner Ssc = new Scanner(System.in);
-    private String [ ] [ ] nombres;
-    private String [ ] [ ] datosPersonales;
-    private String [ ] [ ] adiciones;
+    private String[][] nombres;
+    private String[][] datosPersonales;
+    private String[][] adiciones;
+
+    public Padron(String nombre, String password) {
+        this.password = password;
+        this.nombre = nombre;
+    }
+    public Padron(String nombre, String password, String id) {
+        this.password = password;
+        this.id = id;
+        this.nombre = nombre;
+    }
+    public Padron() {
+        this.nombre = "Null";
+        this.password = "null";
+    }
 
     public String[][] getNombres() {
         return nombres;
@@ -34,11 +49,6 @@ public class Padron {
 
     public void setAdiciones(String[][] adiciones) {
         this.adiciones = adiciones;
-    }
-    
-    public Padron(String nombre, String password){
-        this.password = password;
-        this.nombre = nombre;
     }
 
     public String getNombre() {
@@ -72,10 +82,10 @@ public class Padron {
     public void setSc(Scanner sc) {
         this.sc = sc;
     }
-    
+
     @Override
-    public String toString(){
-        return "Nombre "+getNombre()+" id: "+getId()+" passw "+getPassword();
+    public String toString() {
+        return "Nombre " + getNombre() + " id: " + getId() + " passw " + getPassword();
     }
-    
+
 }
