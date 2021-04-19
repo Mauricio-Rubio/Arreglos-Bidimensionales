@@ -93,11 +93,13 @@ public class Sistema {
             personasTemp[i][6] = Ssc.nextLine();
             personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6]));
             personasTemp[i][3] = funciones.calMes(personas.get(i));
+            System.out.println("Mes : " + personasTemp[i][3]);
 
         }
         usuario.setNombres(personasTemp);
         BaseDatos(usuario);
         BaseDatosTablas(usuario);
+        System.out.println("ID: " + usuario.getId());
         /*for(int j = 0; j <nombresTemp.length; j++){
             for(int x = 0; x<nombresTemp[j].length; x++){
                 //System.out.printf(nombresTemp[j][x]+ " \n");
@@ -109,7 +111,6 @@ public class Sistema {
                 x++) {
             // System.out.println(personas.get(x) + " ");
         }
-        
 
     }
 
@@ -163,6 +164,9 @@ public class Sistema {
                 escribir = new FileWriter(archivo, true);
                 linea = new PrintWriter(escribir);
                 //escribir en el archivo
+                linea.println(usuario.getId());
+                //linea.write(personasTemp[0][0]);
+                //linea.write(",");
                 for (int i = 0; i < personasTemp.length; i++) {
                     linea.write(personasTemp[i][n]);
                     linea.write(",");
@@ -188,6 +192,8 @@ public class Sistema {
             try {
                 escribir = new FileWriter(archivo, true);
                 linea = new PrintWriter(escribir);
+                linea.println(" ");
+                linea.println(usuario.getId());
                 for (int i = 0; i < personasTemp.length; i++) {
                     linea.write(personasTemp[i][n]);
                     linea.write(",");
