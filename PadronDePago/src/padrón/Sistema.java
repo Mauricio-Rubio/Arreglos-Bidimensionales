@@ -20,6 +20,7 @@ public class Sistema {
     Scanner Ssc = new Scanner(System.in);
     Scanner sc = new Scanner(System.in);
     Funciones.FuncionesStatic funciones;
+    String [ ] arregloGenerado;
     Cifrador cifrar = new Cifrador();
     int eleccion = 0;
     int n = 0;
@@ -55,8 +56,11 @@ public class Sistema {
         do {
             Padron usuarioLogin;
             usuarioLogin = datosLogin();
-            if (usuarioLogin != null) {
+            if (usuarioLogin != null && generarUser(usuarioLogin.getId())) {
                 System.out.println("Bienvenido al padron: " + usuarioLogin.getNombre());
+                for(int y = 0; y<arregloGenerado.length; y++){
+                    System.out.println("------>"+arregloGenerado[y]);
+                }
                 opcionesPadron(usuarioLogin);
                 break;
             } else {
@@ -150,8 +154,8 @@ public class Sistema {
             Persona userTemp;
             System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
             personasTemp[i][6] = Ssc.nextLine();
-            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6]));
             personasTemp[i][3] = funciones.calMes(personas.get(i));
+            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6]));
             System.out.println("Mes : " + personasTemp[i][3]);
 
         }
@@ -198,7 +202,7 @@ public class Sistema {
                     if (cadena != null && contraseña.equals(contraseñaCifrada) && idUser.equals(idUsuario)) {
                         Padron userBusqueda = new Padron(nombre, contraseña, idUsuario);
                         leer.close();
-                         usuario = userBusqueda;
+                        usuario = userBusqueda;
                         return true;
                     }
                 } catch (IOException ex) {
@@ -207,6 +211,51 @@ public class Sistema {
                     Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } while (cadena != null || (idUser.equals(nombre) && contraseña.equals(contraseñaCifrada)));
+            try {
+                almacenamiento.close();
+                leer.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return true;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Usuario no existe");
+        return false;
+    }
+
+    public boolean generarUser(String idUser) {
+        File archivo;  //manipular un archivo
+        FileReader leer; //lector
+        String cadena, arrgloPrincipal = "", id = "";
+        BufferedReader almacenamiento;
+        archivo = new File("padronDatos.txt");
+        try {
+            leer = new FileReader(archivo);
+            almacenamiento = new BufferedReader(leer);
+            cadena = "";
+            //nombre = null;
+            do {
+                try {
+                    cadena = almacenamiento.readLine();
+                    id = cadena;
+                    cadena = almacenamiento.readLine();
+                    arrgloPrincipal = cadena;
+                    if (cadena != null && idUser.equals(id)) {
+                        arregloGenerado = arrgloPrincipal.split(",");
+                        leer.close();
+                        return true;
+                        // Padron userBusqueda = new Padron(nombre, contraseña, arrgloPrincipal);
+
+                        // usuario = userBusqueda;
+                    }
+                } catch (IOException ex) {
+                    System.out.println("error encontrar" + ex);
+
+                    Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } while (cadena != null || (idUser.equals(arrgloPrincipal)));
             try {
                 almacenamiento.close();
                 leer.close();

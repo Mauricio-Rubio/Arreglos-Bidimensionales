@@ -22,6 +22,13 @@ public class Padron {
         this.id = id;
         this.nombre = nombre;
     }
+
+    public Padron(String id, String[][] nombres, String[][] datosPersonales, String[][] adiciones) {
+        this.id = id;
+        this.nombres = nombres;
+        this.datosPersonales = datosPersonales;
+        this.adiciones = adiciones;
+    }
     public Padron() {
         this.nombre = "Null";
         this.password = "null";
