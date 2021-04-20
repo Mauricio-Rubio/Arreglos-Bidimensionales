@@ -108,15 +108,16 @@ public class Sistema {
     }
 
     public void mostrar() {
-        System.out.printf("||============||============||============||=============================%16s=============================||=====||=====||=======|| \n", "DATOS PERSONALES");
-        System.out.printf("||============||============||============||==========================================================================||=====||=====||=======|| \n", "DATOS PERSONALES");
-        System.out.printf("||  %9s || %9s  ||   %6s   ||%3s||%3s||%4s||%16S||     %3s    ||%4s||    %4s    ||%6s||%5s||%5s||%7s||\n", "A.Paterno", "A.Materno", "Nombre", "Mes", "Dia", "Año", "Fecha Nacimiento", "RFC", "Edad", "Tipo", "Código", "Letra", "Ayuda", "Importe");
-        System.out.printf("||============||============||============||===||===||====||================||============||====||============||======||=====||=====||=======|| \n", "DATOS PERSONALES");
+        System.out.printf("||============||============||================||=============================%16s=============================||=====||=====||=======|| \n", "DATOS PERSONALES");
+        System.out.printf("||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
+        System.out.printf("||  %9s || %9s  ||   %10s   ||%3s||%3s||%4s||%16S||     %3s    ||%4s||    %4s    ||%6s||%5s||%5s||%7s||\n", "A.Paterno", "A.Materno", "Nombre", "Mes", "Dia", "Año", "Fecha Nacimiento", "RFC", "Edad", "Tipo", "Código", "Letra", "Ayuda", "Importe");
+        System.out.printf("||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
         String[][] personasTemp = usuario.getNombres();
         String[][] datosPersonalesTemp = usuario.getDatosPersonales();
         String[][] adicionesTemp = usuario.getAdiciones();
         for (int i = 0; i < usuario.getNombres().length; i++) {
-            System.out.printf("||  %9s || %9s  ||   %6s   ||%3s||%3s||%4s||%16S||%12s||%4s||%12s||%6s||%5s||%5s||%7s||\n", personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], personasTemp[i][6], datosPersonalesTemp[i][0], datosPersonalesTemp[i][1], datosPersonalesTemp[i][2], datosPersonalesTemp[i][3], adicionesTemp[i][0], adicionesTemp[i][1], adicionesTemp[i][2]);
+            System.out.printf("||  %9s || %9s  ||   %10s   ||%3s||%3s||%4s||%16S||%12s||%4s||%12s||%6s||%5s||%5s||%7s||\n", personasTemp[i][1], personasTemp[i][2], personasTemp[i][0], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], personasTemp[i][6], datosPersonalesTemp[i][0], datosPersonalesTemp[i][1], datosPersonalesTemp[i][2], datosPersonalesTemp[i][3], adicionesTemp[i][0], adicionesTemp[i][1], adicionesTemp[i][2]);
+            System.out.printf("||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
         }
 
     }
