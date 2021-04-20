@@ -60,9 +60,6 @@ public class Sistema {
             if (usuarioLogin != null && generarUser(usuarioLogin.getId())) {
                 System.out.println("Bienvenido al padron: " + usuarioLogin.getNombre());
                 construirArreglos(arregloGenerado);
-                /*for (int y = 0; y < arregloGenerado.length; y++) {
-                    System.out.println("------>" + arregloGenerado[y]);
-                }*/
                 opcionesPadron(usuarioLogin);
                 break;
             } else {
@@ -136,7 +133,7 @@ public class Sistema {
             System.out.println("Contraseña coincide");
             usuario = new Padron(nombre, ps1);
             usuario.setId(String.valueOf(funciones.generarID(usuario)));
-            //System.out.println(usuario);
+            System.out.println("Tu nuevo ID es: "+usuario.getId());
             completarPadron();
         } else {
             System.out.println("Revisa tu contraseña");
@@ -186,26 +183,10 @@ public class Sistema {
             usuario.setNombres(personasTemp);
             usuario.setDatosPersonales(datosPersonalesTemp);
             usuario.setAdiciones(adicionesTemp);
-            System.out.println(adicionesTemp[i][1]);
-            System.out.println(adicionesTemp[i][2]);
-
         }
         usuario.setNombres(personasTemp);
         BaseDatos(usuario);
         BaseDatosTablas(usuario);
-        System.out.println("ID: " + usuario.getId());
-        /*for(int j = 0; j <nombresTemp.length; j++){
-            for(int x = 0; x<nombresTemp[j].length; x++){
-                //System.out.printf(nombresTemp[j][x]+ " \n");
-                System.out.println(personas.get(j)+ " ");
-            }
-        }
-        for (int x = 0;
-                x < personas.size();
-                x++) {
-            // System.out.println(personas.get(x) + " ");
-        }*/
-
     }
 
     public boolean buscarUser(String idUser, String contraseñaUser) {
