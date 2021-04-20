@@ -51,7 +51,8 @@ public class Sistema {
         } while (eleccion != 3);
 
     }
-
+    
+    
     public void login() {
         int i = 0;
         do {
@@ -92,7 +93,7 @@ public class Sistema {
         eleccion = sc.nextInt();
         switch (eleccion) {
             case 1:
-                crearPadron();
+                mostrar();
                 break;
             case 2:
                 login();
@@ -106,6 +107,11 @@ public class Sistema {
                 System.out.println("Ingresa alguna opcion");
         }
     }
+    
+    public void mostrar(){
+        System.out.println("Mostrando resultados");
+    }
+    
 
     public void crearPadron() {
         System.out.println("Ingrese el nombre del padron");
@@ -135,6 +141,7 @@ public class Sistema {
                 return;
             }
         }
+        opcionesPadron(usuario);
 
     }
 
@@ -155,12 +162,15 @@ public class Sistema {
             Persona userTemp;
             System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
             personasTemp[i][6] = Ssc.nextLine();
-            personasTemp[i][3] = funciones.calMes(personasTemp[i][6]);
-            personasTemp[i][4] = funciones.calDias(personasTemp[i][6]);
-            personasTemp[i][5] = funciones.calAño(personasTemp[i][6]);
-            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5]));
-
-            System.out.println(personas.get(0));
+            personasTemp[i][3] = FuncionesStatic.calMes(personasTemp[i][6]);
+            personasTemp[i][4] = FuncionesStatic.calDias(personasTemp[i][6]);
+            personasTemp[i][5] = FuncionesStatic.calAño(personasTemp[i][6]);
+            datosPersonalesTemp[i][0] = FuncionesStatic.calRFC(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][5], personasTemp[i][3], personasTemp[i][4]);
+            datosPersonalesTemp[i][1] = FuncionesStatic.calEdad(personasTemp[i][5]);
+            datosPersonalesTemp[i][2] = FuncionesStatic.tipoPersona(datosPersonalesTemp[i][1]);
+            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], datosPersonalesTemp[i][0]));
+            
+            System.out.println(datosPersonalesTemp[i][2]);
 
         }
         usuario.setNombres(personasTemp);

@@ -18,7 +18,7 @@ public class Persona {
         this.nacimiento = edad;
     }
 
-    public Persona(String nombre, String ApellidoP, String ApellidoM, String nacimiento, String mes, String dia, String año) {
+    public Persona(String nombre, String ApellidoP, String ApellidoM, String nacimiento, String mes, String dia, String año, String RFC) {
         this.nombre = nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
@@ -26,6 +26,7 @@ public class Persona {
         this.mes = mes;
         this.dia = dia;
         this.año = año;
+        this.RFC = RFC;
     }
 
     public Persona(String nombre, String ApellidoP, String ApellidoM) {

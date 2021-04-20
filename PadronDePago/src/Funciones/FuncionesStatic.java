@@ -21,18 +21,45 @@ public class FuncionesStatic {
             return false;
         }
     }
-    
-    public static String calMes(String nacimiento){
+
+    public static String calMes(String nacimiento) {
         String res = nacimiento.substring(2, 4);
         return res;
     }
-    public static String calDias(String nacimiento){
+
+    public static String calDias(String nacimiento) {
         String res = nacimiento.substring(0, 2);
         return res;
     }
-    public static String calAño(String nacimiento){
+
+    public static String calAño(String nacimiento) {
         String res = nacimiento.substring(4, 8);
         return res;
     }
+
+    public static String calEdad(String año) {
+        int res = Integer.parseInt(año);
+        res = 2021 - res;
+        String Sres = String.valueOf(res);
+        return Sres;
+    }
+
+    public static String calRFC(String nombre, String ApellidoP, String ApellidoM, String año, String mes, String dia) {
+        String res = ApellidoP.toUpperCase().substring(0, 2) + ApellidoM.substring(0, 1) + nombre.substring(0, 1) + año.substring(2, 4) + mes + dia;
+        return res;
+    }
     
+    public static String tipoPersona(String edad){
+        int res = Integer.valueOf(edad);
+        String Sres = "";
+        if(res >= 60){
+            Sres = "Adulto Mayor";
+        }else if(res > 21 && res < 60){
+            Sres = "Adulto";
+        }else{
+            Sres = "Estudiante";
+        }
+        return Sres;
+    }
+
 }
