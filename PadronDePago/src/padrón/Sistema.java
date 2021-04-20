@@ -108,13 +108,18 @@ public class Sistema {
     }
 
     public void mostrar() {
-        System.out.printf("||============||============||============||=============================%16s=============================||=====||=====||=======|| \n","DATOS PERSONALES");
-        System.out.printf("||============||============||============||==========================================================================||=====||=====||=======|| \n","DATOS PERSONALES");
-        System.out.printf("||  %9s || %9s  ||   %6s   ||%3s||%3s||%4s||%16S||     %3s    ||%4s||    %4s    ||%6s||%5s||%5s||%7s||\n", "A.Paterno","A.Materno","Nombre","Mes","Dia","Año","Fecha Nacimiento","RFC", "Edad", "Tipo", "Código","Letra","Ayuda", "Importe");
-        System.out.printf("||============||============||============||===||===||====||================||============||====||============||======||=====||=====||=======|| \n","DATOS PERSONALES");
-        //suma debe dar 62
+        System.out.printf("||============||============||============||=============================%16s=============================||=====||=====||=======|| \n", "DATOS PERSONALES");
+        System.out.printf("||============||============||============||==========================================================================||=====||=====||=======|| \n", "DATOS PERSONALES");
+        System.out.printf("||  %9s || %9s  ||   %6s   ||%3s||%3s||%4s||%16S||     %3s    ||%4s||    %4s    ||%6s||%5s||%5s||%7s||\n", "A.Paterno", "A.Materno", "Nombre", "Mes", "Dia", "Año", "Fecha Nacimiento", "RFC", "Edad", "Tipo", "Código", "Letra", "Ayuda", "Importe");
+        System.out.printf("||============||============||============||===||===||====||================||============||====||============||======||=====||=====||=======|| \n", "DATOS PERSONALES");
+        String[][] personasTemp = usuario.getNombres();
+        String[][] datosPersonalesTemp = usuario.getDatosPersonales();
+        String[][] adicionesTemp = usuario.getAdiciones();
+        for (int i = 0; i < usuario.getNombres().length; i++) {
+            System.out.printf("||  %9s || %9s  ||   %6s   ||%3s||%3s||%4s||%16S||%12s||%4s||%12s||%6s||%5s||%5s||%7s||\n", personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], personasTemp[i][6], datosPersonalesTemp[i][0], datosPersonalesTemp[i][1], datosPersonalesTemp[i][2], datosPersonalesTemp[i][3], adicionesTemp[i][0], adicionesTemp[i][1], adicionesTemp[i][2]);
+        }
+
     }
-    
 
     public void crearPadron() {
         System.out.println("Ingrese el nombre del padron");
@@ -176,7 +181,9 @@ public class Sistema {
             adicionesTemp[i][1] = funciones.calAyuda(datosPersonalesTemp[i][2]);
             adicionesTemp[i][2] = funciones.calImporte(personasTemp[i][0], adicionesTemp[i][1]);
             personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], datosPersonalesTemp[i][0]));
-
+            usuario.setNombres(personasTemp);
+            usuario.setDatosPersonales(datosPersonalesTemp);
+            usuario.setAdiciones(adicionesTemp);
             System.out.println(adicionesTemp[i][1]);
             System.out.println(adicionesTemp[i][2]);
 
