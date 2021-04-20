@@ -1,2 +1,16 @@
 B4141
-Mauricio,Rubio,Haro,08,29,2000,29082000,
+Mauricio,Rubio,Haro,08,29,2000,29082000, 
+B4150
+Mauricio,Rubio,Haro,08,29,2003,29082003, 
+Ba139
+Mauricio,Rubio,Haro,08,29,2003,29082003, 
+BG109
+Rodrigo,Rubio,Haro,08,29,2003,29082003, 
+BG133
+Mauricio,Rubio,Haro,08,29,2003,29082003, 
+B4154
+Mauricio,Rubio,Haro,08,29,2003,29082003, 
+B4168
+Mauricio,Rubio,Haro,08,29,1995,29081995, 
+B4153
+Rodrigo,Rubio,Hari,08,29,2003,29082003,

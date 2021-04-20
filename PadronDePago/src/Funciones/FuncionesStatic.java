@@ -48,18 +48,60 @@ public class FuncionesStatic {
         String res = ApellidoP.toUpperCase().substring(0, 2) + ApellidoM.substring(0, 1) + nombre.substring(0, 1) + año.substring(2, 4) + mes + dia;
         return res;
     }
-    
-    public static String tipoPersona(String edad){
+
+    public static String tipoPersona(String edad) {
         int res = Integer.valueOf(edad);
         String Sres = "";
-        if(res >= 60){
+        if (res >= 60) {
             Sres = "Adulto Mayor";
-        }else if(res > 21 && res < 60){
+        } else if (res > 21 && res < 60) {
             Sres = "Adulto";
-        }else{
+        } else {
             Sres = "Estudiante";
         }
         return Sres;
+    }
+
+    public static String calASCII(String nombre) {
+        char Sres = nombre.toUpperCase().charAt(0);
+        int res = Sres;
+        String Ssres = String.valueOf(res);
+        return Ssres;
+    }
+
+    public static String calLetra(String nombre) {
+        char Sres = nombre.toUpperCase().charAt(0);
+        String Ssres = " ";
+        if (Sres != 'R') {
+            Ssres = String.valueOf(Sres) + "*";
+        } else {
+            Ssres = String.valueOf(Sres);
+        }
+        return Ssres;
+    }
+
+    public static String calAyuda(String tipoEdad) {
+        String res = "";
+        if (tipoEdad.equals("Adulto Mayor")) {
+            res = "Si";
+        } else if(tipoEdad.equals("Estudiante")){
+            res = "Si";
+        }else{
+            res = "No";
+        }
+        return res;
+    }
+
+    public static String calImporte(String nombre, String ayuda) {
+        String res = "";
+        if (nombre.charAt(0) == 'R' || nombre.charAt(0) == 'r') {
+            res = "0";
+        } else if(ayuda == "Si"){
+            res = "4000";
+        }else{
+            res = "500";
+        }
+        return res;
     }
 
 }
