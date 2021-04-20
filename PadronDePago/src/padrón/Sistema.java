@@ -59,9 +59,10 @@ public class Sistema {
             usuarioLogin = datosLogin();
             if (usuarioLogin != null && generarUser(usuarioLogin.getId())) {
                 System.out.println("Bienvenido al padron: " + usuarioLogin.getNombre());
-                for (int y = 0; y < arregloGenerado.length; y++) {
+                construirArreglos(arregloGenerado);
+                /*for (int y = 0; y < arregloGenerado.length; y++) {
                     System.out.println("------>" + arregloGenerado[y]);
-                }
+                }*/
                 opcionesPadron(usuarioLogin);
                 break;
             } else {
@@ -300,6 +301,42 @@ public class Sistema {
         return false;
     }
 
+    public void construirArreglos(String[] arr) {
+        int nPer = (arr.length) / 14;
+        int j = 0;
+        System.out.println("No. de personas " + nPer);
+        String[][] personasTemp = new String[nPer][7];
+        String[][] datosPersonalesTemp = new String[nPer][4];
+        String[][] adicionesTemp = new String[nPer][3];
+        for (int i = 0; i < nPer; i++) {
+            personasTemp[i][0] = arregloGenerado[(0 + (i * 14))];
+            personasTemp[i][1] = arregloGenerado[(1 + (i * 14))];
+            personasTemp[i][2] = arregloGenerado[(2 + (i * 14))];
+            personasTemp[i][3] = arregloGenerado[(3 + (i * 14))];
+            personasTemp[i][4] = arregloGenerado[(4 + (i * 14))];
+            personasTemp[i][5] = arregloGenerado[(5 + (i * 14))];
+            personasTemp[i][6] = arregloGenerado[(6 + (i * 14))];
+            datosPersonalesTemp[i][0] = arregloGenerado[(7 + (i * 14))];
+            datosPersonalesTemp[i][1] = arregloGenerado[(8 + (i * 14))];
+            datosPersonalesTemp[i][2] = arregloGenerado[(9 + (i * 14))];
+            datosPersonalesTemp[i][3] = arregloGenerado[(10 + (i * 14))];
+            adicionesTemp[i][0] = arregloGenerado[(11 + (i * 14))];
+            adicionesTemp[i][1] = arregloGenerado[(12 + (i * 14))];
+            adicionesTemp[i][2] = arregloGenerado[(13 + (i * 14))];
+        }
+
+        usuario.setNombres(personasTemp);
+        usuario.setDatosPersonales(datosPersonalesTemp);
+        usuario.setAdiciones(adicionesTemp);
+
+        /*for(int i = 0; i<nPer; i++){
+            
+            for(int j = 0; j<arr.length; j++){
+                personasTemp[i][0] = 
+            }
+        }*/
+    }
+
     public void BaseDatos(Padron usuario) {
         File archivo; //manipula el archivo
         FileWriter escribir; // escribir en el archivo
@@ -384,7 +421,7 @@ public class Sistema {
                     linea.write(",");
                     linea.write(adicionesTemp[i][2]);
                     linea.write(",");
-                    
+
                 }
 
                 /*linea.write(usuario.getId());
