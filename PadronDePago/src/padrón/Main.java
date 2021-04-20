@@ -8,6 +8,6 @@ public class Main {
     
     public static void main(String[] args) {
         Sistema ob = new Sistema();
-        ob.menu();
+        ob.mostrar();
     }
 }

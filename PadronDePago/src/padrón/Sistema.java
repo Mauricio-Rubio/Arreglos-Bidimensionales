@@ -108,8 +108,13 @@ public class Sistema {
     }
 
     public void mostrar() {
-        System.out.println("Mostrando resultados");
+        System.out.printf("||============||============||============||=============================%16s=============================||=====||=====||=======|| \n","DATOS PERSONALES");
+        System.out.printf("||============||============||============||==========================================================================||=====||=====||=======|| \n","DATOS PERSONALES");
+        System.out.printf("||  %9s || %9s  ||   %6s   ||%3s||%3s||%4s||%16S||     %3s    ||%4s||    %4s    ||%6s||%5s||%5s||%7s||\n", "A.Paterno","A.Materno","Nombre","Mes","Dia","Año","Fecha Nacimiento","RFC", "Edad", "Tipo", "Código","Letra","Ayuda", "Importe");
+        System.out.printf("||============||============||============||===||===||====||================||============||====||============||======||=====||=====||=======|| \n","DATOS PERSONALES");
+        //suma debe dar 62
     }
+    
 
     public void crearPadron() {
         System.out.println("Ingrese el nombre del padron");
