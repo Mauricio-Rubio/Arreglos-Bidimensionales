@@ -198,12 +198,12 @@ public class Sistema {
                 //System.out.printf(nombresTemp[j][x]+ " \n");
                 System.out.println(personas.get(j)+ " ");
             }
-        }*/
+        }
         for (int x = 0;
                 x < personas.size();
                 x++) {
             // System.out.println(personas.get(x) + " ");
-        }
+        }*/
 
     }
 
@@ -342,6 +342,8 @@ public class Sistema {
         PrintWriter linea; // 
         archivo = new File("padronDatos.txt");
         String[][] personasTemp = usuario.getNombres();
+        String[][] datosPersonalesTemp = usuario.getDatosPersonales();
+        String[][] adicionesTemp = usuario.getAdiciones();
         System.out.println("Arreglo: " + personasTemp[0][0]);
         if (!archivo.exists()) {
             n = 0;
@@ -354,20 +356,35 @@ public class Sistema {
                 //linea.write(personasTemp[0][0]);
                 //linea.write(",");
                 for (int i = 0; i < personasTemp.length; i++) {
-                    linea.write(personasTemp[i][n]);
+                    linea.write(personasTemp[i][0]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 1]);
+                    linea.write(personasTemp[i][1]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 2]);
+                    linea.write(personasTemp[i][2]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 3]);
+                    linea.write(personasTemp[i][3]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 4]);
+                    linea.write(personasTemp[i][4]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 5]);
+                    linea.write(personasTemp[i][5]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 6]);
+                    linea.write(personasTemp[i][6]);
                     linea.write(",");
+                    linea.write(datosPersonalesTemp[i][0]);
+                    linea.write(",");
+                    linea.write(datosPersonalesTemp[i][1]);
+                    linea.write(",");
+                    linea.write(datosPersonalesTemp[i][2]);
+                    linea.write(",");
+                    linea.write(datosPersonalesTemp[i][3]);
+                    linea.write(",");
+                    linea.write(adicionesTemp[i][0]);
+                    linea.write(",");
+                    linea.write(adicionesTemp[i][1]);
+                    linea.write(",");
+                    linea.write(adicionesTemp[i][2]);
+                    linea.write(",");
+                    
                 }
 
                 /*linea.write(usuario.getId());
@@ -387,19 +404,33 @@ public class Sistema {
                 linea.println(" ");
                 linea.println(usuario.getId());
                 for (int i = 0; i < personasTemp.length; i++) {
-                    linea.write(personasTemp[i][n]);
+                    linea.write(personasTemp[i][0]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 1]);
+                    linea.write(personasTemp[i][1]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 2]);
+                    linea.write(personasTemp[i][2]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 3]);
+                    linea.write(personasTemp[i][3]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 4]);
+                    linea.write(personasTemp[i][4]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 5]);
+                    linea.write(personasTemp[i][5]);
                     linea.write(",");
-                    linea.write(personasTemp[i][n + 6]);
+                    linea.write(personasTemp[i][6]);
+                    linea.write(",");
+                    linea.write(datosPersonalesTemp[i][0]);
+                    linea.write(",");
+                    linea.write(datosPersonalesTemp[i][1]);
+                    linea.write(",");
+                    linea.write(datosPersonalesTemp[i][2]);
+                    linea.write(",");
+                    linea.write(datosPersonalesTemp[i][3]);
+                    linea.write(",");
+                    linea.write(adicionesTemp[i][0]);
+                    linea.write(",");
+                    linea.write(adicionesTemp[i][1]);
+                    linea.write(",");
+                    linea.write(adicionesTemp[i][2]);
                     linea.write(",");
                 }
                 linea.close();

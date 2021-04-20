@@ -1,10 +1,2 @@
-BG116
-Ana,Rubio,Haro,08,29,2003,29082003, 
-BG189
-Ana,Rubio,Haro,08,29,2003,29082003, 
-CG176
-ana,rubio,haro,08,29,2003,29082003, 
-BG105
-Esteban,Aguirre,Campos,04,25,1945,25041945,Ricardo,Garcia,Contreras,01,02,2002,02012002,F�tima,Calzada,Ram�rez,02,28,1985,28021985, 
-BG126
-Ricardo,Contreras,Garcia,01,02,2002,02012002,
+BG147
+Mauricio,Rubio,Haro,08,29,2003,29082003,RUHM030829,18,Estudiante,77,M*,Si,4000,Ana,Rubio,Haro,05,29,1995,29051995,RUHA950529,26,Adulto,65,A*,No,500,
