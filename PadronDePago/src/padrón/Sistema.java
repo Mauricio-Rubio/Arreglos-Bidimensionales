@@ -96,7 +96,9 @@ public class Sistema {
                 login();
                 break;
             case 3:
-                corregirPadron(usuarioActivo);
+                if(corregirPadron() == 'N'){
+                    corregirPadron();
+                }
                 break;
             case 4:
                 System.out.println("Usuario saliendo");
@@ -330,7 +332,7 @@ public class Sistema {
         Scanner charS = new Scanner(System.in);
         do {
             System.out.println("Ingrese el numero de la persona a corregir");
-            elec = (sc.nextInt()-1);
+            elec = (sc.nextInt() - 1);
             System.out.println("Ingrese el o los nombres de pila ");
             String nombre = Ssc.nextLine();
             System.out.println("Ingrese el apellido paterno");
@@ -351,10 +353,10 @@ public class Sistema {
                     corregirPadron(usuarioActivo);
                 }
             } else {
-                personasTemp[elec][0] = nombre; 
-                personasTemp[elec][1] = apellidoTemp; 
-                personasTemp[elec][2] = apellido2Temp; 
-                personasTemp[elec][6] = nacimiento; 
+                personasTemp[elec][0] = nombre;
+                personasTemp[elec][1] = apellidoTemp;
+                personasTemp[elec][2] = apellido2Temp;
+                personasTemp[elec][6] = nacimiento;
                 personasTemp[elec][3] = FuncionesStatic.calMes(personasTemp[elec][6]);
                 personasTemp[elec][4] = FuncionesStatic.calDias(personasTemp[elec][6]);
                 personasTemp[elec][5] = FuncionesStatic.calAño(personasTemp[elec][6]);
@@ -371,6 +373,66 @@ public class Sistema {
                 opcionesPadron();
             }
         } while (conti != 'N');
+    }
+
+    public char corregirPadron() {
+        char conti;
+        char conti1;
+        int elec;
+        String[][] personasTemp = usuarioActivo.getNombres();
+        String[][] datosPersonalesTemp = usuarioActivo.getDatosPersonales();
+        String[][] adicionesTemp = usuarioActivo.getAdiciones();
+        Scanner charS = new Scanner(System.in);
+        String nombre, apellidoTemp, apellido2Temp, nacimiento;
+        System.out.println("Ingrese el numero de la persona a corregir");
+        elec = (sc.nextInt() - 1);
+        System.out.println("Ingrese el o los nombres de pila ");
+        nombre = Ssc.nextLine();
+        System.out.println("Ingrese el apellido paterno");
+        apellidoTemp = Ssc.nextLine();
+        System.out.println("Ingrese el apellido materno");
+        apellido2Temp = Ssc.nextLine();
+        System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
+        nacimiento = Ssc.nextLine();
+        System.out.println("Esta seguro de continuar (S/N)");
+        conti = charS.next().charAt(0);
+        System.out.println(conti);
+        if (conti == 'S' || conti == 's') {
+            personasTemp[elec][0] = nombre;
+            personasTemp[elec][1] = apellidoTemp;
+            personasTemp[elec][2] = apellido2Temp;
+            personasTemp[elec][6] = nacimiento;
+            personasTemp[elec][3] = FuncionesStatic.calMes(personasTemp[elec][6]);
+            personasTemp[elec][4] = FuncionesStatic.calDias(personasTemp[elec][6]);
+            personasTemp[elec][5] = FuncionesStatic.calAño(personasTemp[elec][6]);
+            datosPersonalesTemp[elec][0] = funciones.calRFC(personasTemp[elec][0], personasTemp[elec][1], personasTemp[elec][2], personasTemp[elec][5], personasTemp[elec][3], personasTemp[elec][4]);
+            datosPersonalesTemp[elec][1] = funciones.calEdad(personasTemp[elec][5]);
+            datosPersonalesTemp[elec][2] = funciones.tipoPersona(datosPersonalesTemp[elec][1]);
+            datosPersonalesTemp[elec][3] = funciones.calASCII(personasTemp[elec][0]);
+            adicionesTemp[elec][0] = funciones.calLetra(personasTemp[elec][0]);
+            adicionesTemp[elec][1] = funciones.calAyuda(datosPersonalesTemp[elec][2]);
+            adicionesTemp[elec][2] = funciones.calImporte(personasTemp[elec][0], adicionesTemp[elec][1]);
+            usuarioActivo.setNombres(personasTemp);
+            usuarioActivo.setDatosPersonales(datosPersonalesTemp);
+            usuarioActivo.setAdiciones(adicionesTemp);
+            System.out.println("Operacion exitosa");
+            opcionesPadron();
+        } else {
+            System.out.println("Desea salir al menu principal: (S/N)");
+            conti1 = charS.next().charAt(0);
+            if(conti1 == 'S'){
+                System.out.println("Regresando al menu");
+                opcionesPadron();
+            }else{
+                System.out.println("Intena otra vez");
+                return 'N';
+            }
+        }
+        return 'S';
+    }
+
+    public void pedirNuevosPadron() {
+
     }
 
     public void BaseDatos(Padron usuario) {
