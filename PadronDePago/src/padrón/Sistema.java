@@ -323,13 +323,16 @@ public class Sistema {
     public void corregirPadron(Padron usr) {
         char conti = ' ';
         char conti1 = ' ';
-        int c = 0;
+        int elec = 0;
+        String[][] personasTemp = usuarioActivo.getNombres();
+        String[][] datosPersonalesTemp = usuarioActivo.getDatosPersonales();
+        String[][] adicionesTemp = usuarioActivo.getAdiciones();
         Scanner charS = new Scanner(System.in);
         do {
             System.out.println("Ingrese el numero de la persona a corregir");
-            int elec = sc.nextInt();
+            elec = (sc.nextInt()-1);
             System.out.println("Ingrese el o los nombres de pila ");
-            String nombreTemp = Ssc.nextLine();
+            String nombre = Ssc.nextLine();
             System.out.println("Ingrese el apellido paterno");
             String apellidoTemp = Ssc.nextLine();
             System.out.println("Ingrese el apellido materno");
@@ -339,22 +342,35 @@ public class Sistema {
             System.out.println("Esta seguro de continuar (S/N)");
             conti = charS.next().charAt(0);
             System.out.println(conti);
-            if(conti == 'N'){
+            if (conti == 'N') {
                 System.out.println("Desea salir al menu (S/N)");
                 conti1 = charS.next().charAt(0);
-                if(conti1 == 'S'){
-                    opcionesPadron();         
-                }else{
+                if (conti1 == 'S') {
+                    opcionesPadron();
+                } else {
                     corregirPadron(usuarioActivo);
-                    c++; /**
-                     * Esta variable C, será la que nos ayude a controlar 
-                     * la recursividad para evitar caer en un bucle infinito
-                     */
                 }
+            } else {
+                personasTemp[elec][0] = nombre; 
+                personasTemp[elec][1] = apellidoTemp; 
+                personasTemp[elec][2] = apellido2Temp; 
+                personasTemp[elec][6] = nacimiento; 
+                personasTemp[elec][3] = FuncionesStatic.calMes(personasTemp[elec][6]);
+                personasTemp[elec][4] = FuncionesStatic.calDias(personasTemp[elec][6]);
+                personasTemp[elec][5] = FuncionesStatic.calAño(personasTemp[elec][6]);
+                datosPersonalesTemp[elec][0] = funciones.calRFC(personasTemp[elec][0], personasTemp[elec][1], personasTemp[elec][2], personasTemp[elec][5], personasTemp[elec][3], personasTemp[elec][4]);
+                datosPersonalesTemp[elec][1] = funciones.calEdad(personasTemp[elec][5]);
+                datosPersonalesTemp[elec][2] = funciones.tipoPersona(datosPersonalesTemp[elec][1]);
+                datosPersonalesTemp[elec][3] = funciones.calASCII(personasTemp[elec][0]);
+                adicionesTemp[elec][0] = funciones.calLetra(personasTemp[elec][0]);
+                adicionesTemp[elec][1] = funciones.calAyuda(datosPersonalesTemp[elec][2]);
+                adicionesTemp[elec][2] = funciones.calImporte(personasTemp[elec][0], adicionesTemp[elec][1]);
+                usuarioActivo.setNombres(personasTemp);
+                usuarioActivo.setDatosPersonales(datosPersonalesTemp);
+                usuarioActivo.setAdiciones(adicionesTemp);
+                opcionesPadron();
             }
-        }while (conti == 'N' && c<2);
-        
-    
+        } while (conti != 'N');
     }
 
     public void BaseDatos(Padron usuario) {
