@@ -2,12 +2,16 @@ package padrón;
 
 import Funciones.FuncionesStatic;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -81,12 +85,13 @@ public class Sistema {
         return null;
     }
 
-    public void opcionesPadron() {
+    public void opcionesPadron(){
         eleccion = 0;
         System.out.println("1.- Mostrar");
         System.out.println("2.- Agregar");
-        System.out.println("3.- Corregir");
-        System.out.println("4.- Salir");
+        System.out.println("3.- Corregir datos");
+        System.out.println("4.- Cambiar nombre y contraseña");
+        System.out.println("5.- Salir");
         eleccion = sc.nextInt();
         switch (eleccion) {
             case 1:
@@ -96,12 +101,16 @@ public class Sistema {
                 login();
                 break;
             case 3:
-                if(corregirPadron() == 'N'){
+                if (corregirPadron() == 'N') {
                     corregirPadron();
                 }
                 break;
             case 4:
+                cambiarDatos();
+                break;
+            case 5:
                 System.out.println("Usuario saliendo");
+                usuarioActivo = null;
                 break;
             default:
                 System.out.println("Ingresa alguna opcion");
@@ -121,6 +130,49 @@ public class Sistema {
             System.out.printf("||===||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
         }
         opcionesPadron();
+    }
+
+    public void cambiarDatos() {
+        System.out.println("Ingresa tu contra actual");
+        String ps = Ssc.nextLine();
+        ps =cifrar.cifrar(ps);
+        if(ps.equals(usuarioActivo.getPassword())){
+            
+        
+        System.out.println("Ingrese el nombre del padron");
+        String nombre = Ssc.nextLine();
+        System.out.println("Ingrese su contraseña");
+        String ps1 = Ssc.nextLine();
+        ps1 = cifrar.cifrar(ps1);
+        System.out.println("Ingrese su contraseña");
+        String ps2 = Ssc.nextLine();
+        ps2 = cifrar.cifrar(ps2);
+        if (funciones.validarPsRegistro(ps1, ps2)) {
+            System.out.println("Contraseña coincide");
+            usuarioActivo.setNombre(nombre);
+            usuarioActivo.setPassword(ps1);
+            actualizarUsuario(usuarioActivo);
+            System.out.println("Tu ID es: " + usuarioActivo.getId());
+            
+           // completarPadron();
+        } else {
+            System.out.println("Revisa tu contraseña");
+            n++;
+            /**
+             * Este segundo if, nos ayudará a controlar la recursividad de este
+             * método, evitándonos crear un bucle.
+             */
+            if (n < 3) {
+                crearPadron();
+            } else {
+                return;
+            }
+        }
+        opcionesPadron();
+        }else{
+            System.out.println("Contraseña incorrecta");
+            opcionesPadron();
+        }
     }
 
     public void crearPadron() {
@@ -313,66 +365,6 @@ public class Sistema {
         usuarioActivo.setNombres(personasTemp);
         usuarioActivo.setDatosPersonales(datosPersonalesTemp);
         usuarioActivo.setAdiciones(adicionesTemp);
-
-        /*for(int i = 0; i<nPer; i++){
-            
-            for(int j = 0; j<arr.length; j++){
-                personasTemp[i][0] = 
-            }
-        }*/
-    }
-
-    public void corregirPadron(Padron usr) {
-        char conti = ' ';
-        char conti1 = ' ';
-        int elec = 0;
-        String[][] personasTemp = usuarioActivo.getNombres();
-        String[][] datosPersonalesTemp = usuarioActivo.getDatosPersonales();
-        String[][] adicionesTemp = usuarioActivo.getAdiciones();
-        Scanner charS = new Scanner(System.in);
-        do {
-            System.out.println("Ingrese el numero de la persona a corregir");
-            elec = (sc.nextInt() - 1);
-            System.out.println("Ingrese el o los nombres de pila ");
-            String nombre = Ssc.nextLine();
-            System.out.println("Ingrese el apellido paterno");
-            String apellidoTemp = Ssc.nextLine();
-            System.out.println("Ingrese el apellido materno");
-            String apellido2Temp = Ssc.nextLine();
-            System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
-            String nacimiento = Ssc.nextLine();
-            System.out.println("Esta seguro de continuar (S/N)");
-            conti = charS.next().charAt(0);
-            System.out.println(conti);
-            if (conti == 'N') {
-                System.out.println("Desea salir al menu (S/N)");
-                conti1 = charS.next().charAt(0);
-                if (conti1 == 'S') {
-                    opcionesPadron();
-                } else {
-                    corregirPadron(usuarioActivo);
-                }
-            } else {
-                personasTemp[elec][0] = nombre;
-                personasTemp[elec][1] = apellidoTemp;
-                personasTemp[elec][2] = apellido2Temp;
-                personasTemp[elec][6] = nacimiento;
-                personasTemp[elec][3] = FuncionesStatic.calMes(personasTemp[elec][6]);
-                personasTemp[elec][4] = FuncionesStatic.calDias(personasTemp[elec][6]);
-                personasTemp[elec][5] = FuncionesStatic.calAño(personasTemp[elec][6]);
-                datosPersonalesTemp[elec][0] = funciones.calRFC(personasTemp[elec][0], personasTemp[elec][1], personasTemp[elec][2], personasTemp[elec][5], personasTemp[elec][3], personasTemp[elec][4]);
-                datosPersonalesTemp[elec][1] = funciones.calEdad(personasTemp[elec][5]);
-                datosPersonalesTemp[elec][2] = funciones.tipoPersona(datosPersonalesTemp[elec][1]);
-                datosPersonalesTemp[elec][3] = funciones.calASCII(personasTemp[elec][0]);
-                adicionesTemp[elec][0] = funciones.calLetra(personasTemp[elec][0]);
-                adicionesTemp[elec][1] = funciones.calAyuda(datosPersonalesTemp[elec][2]);
-                adicionesTemp[elec][2] = funciones.calImporte(personasTemp[elec][0], adicionesTemp[elec][1]);
-                usuarioActivo.setNombres(personasTemp);
-                usuarioActivo.setDatosPersonales(datosPersonalesTemp);
-                usuarioActivo.setAdiciones(adicionesTemp);
-                opcionesPadron();
-            }
-        } while (conti != 'N');
     }
 
     public char corregirPadron() {
@@ -420,10 +412,10 @@ public class Sistema {
         } else {
             System.out.println("Desea salir al menu principal: (S/N)");
             conti1 = charS.next().charAt(0);
-            if(conti1 == 'S'){
+            if (conti1 == 'S') {
                 System.out.println("Regresando al menu");
                 opcionesPadron();
-            }else{
+            } else {
                 System.out.println("Intena otra vez");
                 return 'N';
             }
@@ -573,6 +565,48 @@ public class Sistema {
             } catch (Exception e) {
             }
         }
+    }
+
+    public Padron actualizarUsuario(Padron user) {
+        File archivoTemporal;
+        archivoTemporal = new File("temp.txt");
+        File archivoLectura;
+        archivoLectura = new File("padron.txt");
+        try {
+            BufferedWriter escribir = new BufferedWriter(new FileWriter(archivoTemporal));
+            BufferedReader lectura = new BufferedReader(new FileReader(archivoLectura));
+            String cadena;
+            while ((cadena = lectura.readLine()) != null) { //comparamos cadena, que alberga lectura de linea, con null
+                String borrarEspacios = cadena.trim();
+                if (borrarEspacios.equals(user.getId())) {
+                    escribir.write(user.getId() + System.getProperty("line.separator"));
+                    escribir.write(user.getNombre() + System.getProperty("line.separator"));
+                    escribir.write(user.getPassword() + System.getProperty("line.separator"));
+                    for (int i = 0; i < 4; i++) {
+                        cadena = lectura.readLine();
+                    }
+                    continue; //sale de la iteracion. No ejecuta nada continuo
+                }
+                escribir.write(cadena + System.getProperty("line.separator"));
+            }
+
+            lectura.close();
+            escribir.close();
+
+            if (archivoLectura.exists()) {
+                //Boolean resultados = archivoTemporal.renameTo(new File());
+
+                Files.move(Paths.get(archivoTemporal.getAbsolutePath()), Paths.get(archivoLectura.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+                //Files.move(archivoTemporal.toPath(), archivoLectura.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } else {
+                System.out.println("Error: No archivo lectura");
+            }
+
+        } catch (IOException x) {
+            System.out.println("Error: " + x);
+        }
+
+        return null;
     }
 
 }
