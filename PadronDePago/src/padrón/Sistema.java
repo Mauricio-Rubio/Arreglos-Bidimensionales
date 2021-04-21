@@ -16,7 +16,7 @@ import sun.security.util.Length;
 
 public class Sistema {
 
-    Padron usuario;
+    Padron usuarioActivo;
     ArrayList<Persona> personas = new ArrayList<>();
     Scanner Ssc = new Scanner(System.in);
     Scanner sc = new Scanner(System.in);
@@ -60,7 +60,7 @@ public class Sistema {
             if (usuarioLogin != null && generarUser(usuarioLogin.getId())) {
                 System.out.println("Bienvenido al padron: " + usuarioLogin.getNombre());
                 construirArreglos(arregloGenerado);
-                opcionesPadron(usuarioLogin);
+                opcionesPadron();
                 break;
             } else {
                 System.out.println("Error en login, revisa tus datos");
@@ -76,12 +76,12 @@ public class Sistema {
         System.out.println("Ingresa tu contraseña");
         contraseñaUser = Ssc.nextLine();
         if (buscarUser(idUser, contraseñaUser)) {
-            return usuario;
+            return usuarioActivo;
         }
         return null;
     }
 
-    public void opcionesPadron(Padron user) {
+    public void opcionesPadron() {
         eleccion = 0;
         System.out.println("1.- Mostrar");
         System.out.println("2.- Agregar");
@@ -96,6 +96,7 @@ public class Sistema {
                 login();
                 break;
             case 3:
+                corregirPadron(usuarioActivo);
                 break;
             case 4:
                 System.out.println("Usuario saliendo");
@@ -106,18 +107,18 @@ public class Sistema {
     }
 
     public void mostrar() {
-        System.out.printf("||============||============||================||=============================%16s=============================||=====||=====||=======|| \n", "DATOS PERSONALES");
-        System.out.printf("||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
-        System.out.printf("||  %9s || %9s  ||   %10s   ||%3s||%3s||%4s||%16S||     %3s    ||%4s||    %4s    ||%6s||%5s||%5s||%7s||\n", "A.Paterno", "A.Materno", "Nombre", "Mes", "Dia", "Año", "Fecha Nacimiento", "RFC", "Edad", "Tipo", "Código", "Letra", "Ayuda", "Importe");
-        System.out.printf("||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
-        String[][] personasTemp = usuario.getNombres();
-        String[][] datosPersonalesTemp = usuario.getDatosPersonales();
-        String[][] adicionesTemp = usuario.getAdiciones();
-        for (int i = 0; i < usuario.getNombres().length; i++) {
-            System.out.printf("||  %9s || %9s  ||   %10s   ||%3s||%3s||%4s||%16S||%12s||%4s||%12s||%6s||%5s||%5s||%7s||\n", personasTemp[i][1], personasTemp[i][2], personasTemp[i][0], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], personasTemp[i][6], datosPersonalesTemp[i][0], datosPersonalesTemp[i][1], datosPersonalesTemp[i][2], datosPersonalesTemp[i][3], adicionesTemp[i][0], adicionesTemp[i][1], adicionesTemp[i][2]);
-            System.out.printf("||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
+        System.out.printf("||===||============||============||================||=============================%16s=============================||=====||=====||=======|| \n", "DATOS PERSONALES");
+        System.out.printf("||===||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
+        System.out.printf("||===||  %9s || %9s  ||   %10s   ||%3s||%3s||%4s||%16S||     %3s    ||%4s||    %4s    ||%6s||%5s||%5s||%7s||\n", "A.Paterno", "A.Materno", "Nombre", "Mes", "Dia", "Año", "Fecha Nacimiento", "RFC", "Edad", "Tipo", "Código", "Letra", "Ayuda", "Importe");
+        System.out.printf("||===||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
+        String[][] personasTemp = usuarioActivo.getNombres();
+        String[][] datosPersonalesTemp = usuarioActivo.getDatosPersonales();
+        String[][] adicionesTemp = usuarioActivo.getAdiciones();
+        for (int i = 0; i < usuarioActivo.getNombres().length; i++) {
+            System.out.printf("||%3s||  %9s || %9s  ||   %10s   ||%3s||%3s||%4s||%16S||%12s||%4s||%12s||%6s||%5s||%5s||%7s||\n", (i + 1), personasTemp[i][1], personasTemp[i][2], personasTemp[i][0], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], personasTemp[i][6], datosPersonalesTemp[i][0], datosPersonalesTemp[i][1], datosPersonalesTemp[i][2], datosPersonalesTemp[i][3], adicionesTemp[i][0], adicionesTemp[i][1], adicionesTemp[i][2]);
+            System.out.printf("||===||============||============||================||===||===||====||================||============||====||============||======||=====||=====||=======|| \n");
         }
-
+        opcionesPadron();
     }
 
     public void crearPadron() {
@@ -131,9 +132,9 @@ public class Sistema {
         ps2 = cifrar.cifrar(ps2);
         if (funciones.validarPsRegistro(ps1, ps2)) {
             System.out.println("Contraseña coincide");
-            usuario = new Padron(nombre, ps1);
-            usuario.setId(String.valueOf(funciones.generarID(usuario)));
-            System.out.println("Tu nuevo ID es: "+usuario.getId());
+            usuarioActivo = new Padron(nombre, ps1);
+            usuarioActivo.setId(String.valueOf(funciones.generarID(usuarioActivo)));
+            System.out.println("Tu nuevo ID es: " + usuarioActivo.getId());
             completarPadron();
         } else {
             System.out.println("Revisa tu contraseña");
@@ -148,7 +149,7 @@ public class Sistema {
                 return;
             }
         }
-        opcionesPadron(usuario);
+        opcionesPadron();
 
     }
 
@@ -180,13 +181,13 @@ public class Sistema {
             adicionesTemp[i][1] = funciones.calAyuda(datosPersonalesTemp[i][2]);
             adicionesTemp[i][2] = funciones.calImporte(personasTemp[i][0], adicionesTemp[i][1]);
             personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], datosPersonalesTemp[i][0]));
-            usuario.setNombres(personasTemp);
-            usuario.setDatosPersonales(datosPersonalesTemp);
-            usuario.setAdiciones(adicionesTemp);
+            usuarioActivo.setNombres(personasTemp);
+            usuarioActivo.setDatosPersonales(datosPersonalesTemp);
+            usuarioActivo.setAdiciones(adicionesTemp);
         }
-        usuario.setNombres(personasTemp);
-        BaseDatos(usuario);
-        BaseDatosTablas(usuario);
+        usuarioActivo.setNombres(personasTemp);
+        BaseDatos(usuarioActivo);
+        BaseDatosTablas(usuarioActivo);
     }
 
     public boolean buscarUser(String idUser, String contraseñaUser) {
@@ -214,7 +215,7 @@ public class Sistema {
                     if (cadena != null && contraseña.equals(contraseñaCifrada) && idUser.equals(idUsuario)) {
                         Padron userBusqueda = new Padron(nombre, contraseña, idUsuario);
                         leer.close();
-                        usuario = userBusqueda;
+                        usuarioActivo = userBusqueda;
                         return true;
                     }
                 } catch (IOException ex) {
@@ -304,11 +305,12 @@ public class Sistema {
             adicionesTemp[i][0] = arregloGenerado[(11 + (i * 14))];
             adicionesTemp[i][1] = arregloGenerado[(12 + (i * 14))];
             adicionesTemp[i][2] = arregloGenerado[(13 + (i * 14))];
+            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], datosPersonalesTemp[i][0]));
         }
 
-        usuario.setNombres(personasTemp);
-        usuario.setDatosPersonales(datosPersonalesTemp);
-        usuario.setAdiciones(adicionesTemp);
+        usuarioActivo.setNombres(personasTemp);
+        usuarioActivo.setDatosPersonales(datosPersonalesTemp);
+        usuarioActivo.setAdiciones(adicionesTemp);
 
         /*for(int i = 0; i<nPer; i++){
             
@@ -316,6 +318,43 @@ public class Sistema {
                 personasTemp[i][0] = 
             }
         }*/
+    }
+
+    public void corregirPadron(Padron usr) {
+        char conti = ' ';
+        char conti1 = ' ';
+        int c = 0;
+        Scanner charS = new Scanner(System.in);
+        do {
+            System.out.println("Ingrese el numero de la persona a corregir");
+            int elec = sc.nextInt();
+            System.out.println("Ingrese el o los nombres de pila ");
+            String nombreTemp = Ssc.nextLine();
+            System.out.println("Ingrese el apellido paterno");
+            String apellidoTemp = Ssc.nextLine();
+            System.out.println("Ingrese el apellido materno");
+            String apellido2Temp = Ssc.nextLine();
+            System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
+            String nacimiento = Ssc.nextLine();
+            System.out.println("Esta seguro de continuar (S/N)");
+            conti = charS.next().charAt(0);
+            System.out.println(conti);
+            if(conti == 'N'){
+                System.out.println("Desea salir al menu (S/N)");
+                conti1 = charS.next().charAt(0);
+                if(conti1 == 'S'){
+                    opcionesPadron();         
+                }else{
+                    corregirPadron(usuarioActivo);
+                    c++; /**
+                     * Esta variable C, será la que nos ayude a controlar 
+                     * la recursividad para evitar caer en un bucle infinito
+                     */
+                }
+            }
+        }while (conti == 'N' && c<2);
+        
+    
     }
 
     public void BaseDatos(Padron usuario) {
