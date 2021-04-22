@@ -286,13 +286,12 @@ public class Sistema {
             usuarioActivo.setNombres(personasTemp);
             usuarioActivo.setDatosPersonales(datosPersonalesTemp);
             usuarioActivo.setAdiciones(adicionesTemp);
-            BaseDatosTablas(usuarioActivo);
-            for(int c = 0; c<personasTemp.length;c++){
-                System.out.println("Nombre "+personasTemp[c][0]);
-                System.out.println("RFC "+datosPersonalesTemp[c][0]);
-                System.out.println("Ayuda "+adicionesTemp[c][2]);
+            for (int c = 0; c < personasTemp.length; c++) {
+                System.out.println("Nombre " + personasTemp[c][0]);
+                System.out.println("RFC " + datosPersonalesTemp[c][0]);
+                System.out.println("Ayuda " + adicionesTemp[c][2]);
             }
-
+            actualizarPadron(usuarioActivo);
         }
         opcionesPadron();
     }
@@ -636,6 +635,83 @@ public class Sistema {
                     escribir.write(user.getNombre() + System.getProperty("line.separator"));
                     escribir.write(user.getPassword() + System.getProperty("line.separator"));
                     for (int i = 0; i < 4; i++) {
+                        cadena = lectura.readLine();
+                    }
+                    continue; //sale de la iteracion. No ejecuta nada continuo
+                }
+                escribir.write(cadena + System.getProperty("line.separator"));
+            }
+
+            lectura.close();
+            escribir.close();
+
+            if (archivoLectura.exists()) {
+                //Boolean resultados = archivoTemporal.renameTo(new File());
+
+                Files.move(Paths.get(archivoTemporal.getAbsolutePath()), Paths.get(archivoLectura.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+                //Files.move(archivoTemporal.toPath(), archivoLectura.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } else {
+                System.out.println("Error: No archivo lectura");
+            }
+
+        } catch (IOException x) {
+            System.out.println("Error: " + x);
+        }
+
+        return null;
+    }
+
+    public Padron actualizarPadron(Padron user) {
+        PrintWriter linea;
+        File archivoTemporal;
+        archivoTemporal = new File("temp.txt");
+        File archivoLectura;
+        archivoLectura = new File("padronDatos.txt");
+        String[][] personasTemp = user.getNombres();
+        String[][] datosPersonalesTemp = user.getDatosPersonales();
+        String[][] adicionesTemp = user.getAdiciones();
+        try {
+            BufferedWriter escribir = new BufferedWriter(new FileWriter(archivoTemporal));
+            BufferedReader lectura = new BufferedReader(new FileReader(archivoLectura));
+            linea = new PrintWriter(escribir);
+
+            String cadena;
+            while ((cadena = lectura.readLine()) != null) { //comparamos cadena, que alberga lectura de linea, con null
+                String borrarEspacios = cadena.trim();
+                if (borrarEspacios.equals(user.getId())) {
+                    escribir.write(user.getId() + System.getProperty("line.separator"));
+                    for (int i = 0; i < personasTemp.length; i++) {
+                        linea.write(personasTemp[i][0]);
+                        linea.write(",");
+                        linea.write(personasTemp[i][1]);
+                        linea.write(",");
+                        linea.write(personasTemp[i][2]);
+                        linea.write(",");
+                        linea.write(personasTemp[i][3]);
+                        linea.write(",");
+                        linea.write(personasTemp[i][4]);
+                        linea.write(",");
+                        linea.write(personasTemp[i][5]);
+                        linea.write(",");
+                        linea.write(personasTemp[i][6]);
+                        linea.write(",");
+                        linea.write(datosPersonalesTemp[i][0]);
+                        linea.write(",");
+                        linea.write(datosPersonalesTemp[i][1]);
+                        linea.write(",");
+                        linea.write(datosPersonalesTemp[i][2]);
+                        linea.write(",");
+                        linea.write(datosPersonalesTemp[i][3]);
+                        linea.write(",");
+                        linea.write(adicionesTemp[i][0]);
+                        linea.write(",");
+                        linea.write(adicionesTemp[i][1]);
+                        linea.write(",");
+                        linea.write(adicionesTemp[i][2]);
+                        linea.write(",");
+
+                    }
+                    for (int j = 0; j < 4; j++) {
                         cadena = lectura.readLine();
                     }
                     continue; //sale de la iteracion. No ejecuta nada continuo
