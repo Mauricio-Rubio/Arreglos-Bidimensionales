@@ -1,19 +1,11 @@
 package padrón;
 
+import java.io.*;
+import java.util.*;
 import Funciones.FuncionesStatic;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.security.util.Length;
@@ -85,7 +77,7 @@ public class Sistema {
         return null;
     }
 
-    public void opcionesPadron(){
+    public void opcionesPadron() {
         eleccion = 0;
         System.out.println("1.- Mostrar");
         System.out.println("2.- Agregar");
@@ -98,7 +90,7 @@ public class Sistema {
                 mostrar();
                 break;
             case 2:
-                login();
+                completarPadron();
                 break;
             case 3:
                 if (corregirPadron() == 'N') {
@@ -135,41 +127,40 @@ public class Sistema {
     public void cambiarDatos() {
         System.out.println("Ingresa tu contra actual");
         String ps = Ssc.nextLine();
-        ps =cifrar.cifrar(ps);
-        if(ps.equals(usuarioActivo.getPassword())){
-            
-        
-        System.out.println("Ingrese el nombre del padron");
-        String nombre = Ssc.nextLine();
-        System.out.println("Ingrese su contraseña");
-        String ps1 = Ssc.nextLine();
-        ps1 = cifrar.cifrar(ps1);
-        System.out.println("Ingrese su contraseña");
-        String ps2 = Ssc.nextLine();
-        ps2 = cifrar.cifrar(ps2);
-        if (funciones.validarPsRegistro(ps1, ps2)) {
-            System.out.println("Contraseña coincide");
-            usuarioActivo.setNombre(nombre);
-            usuarioActivo.setPassword(ps1);
-            actualizarUsuario(usuarioActivo);
-            System.out.println("Tu ID es: " + usuarioActivo.getId());
-            
-           // completarPadron();
-        } else {
-            System.out.println("Revisa tu contraseña");
-            n++;
-            /**
-             * Este segundo if, nos ayudará a controlar la recursividad de este
-             * método, evitándonos crear un bucle.
-             */
-            if (n < 3) {
-                crearPadron();
+        ps = cifrar.cifrar(ps);
+        if (ps.equals(usuarioActivo.getPassword())) {
+
+            System.out.println("Ingrese el nombre del padron");
+            String nombre = Ssc.nextLine();
+            System.out.println("Ingrese su contraseña");
+            String ps1 = Ssc.nextLine();
+            ps1 = cifrar.cifrar(ps1);
+            System.out.println("Ingrese su contraseña");
+            String ps2 = Ssc.nextLine();
+            ps2 = cifrar.cifrar(ps2);
+            if (funciones.validarPsRegistro(ps1, ps2)) {
+                System.out.println("Contraseña coincide");
+                usuarioActivo.setNombre(nombre);
+                usuarioActivo.setPassword(ps1);
+                actualizarUsuario(usuarioActivo);
+                System.out.println("Tu ID es: " + usuarioActivo.getId());
+
+                // completarPadron();
             } else {
-                return;
+                System.out.println("Revisa tu contraseña");
+                n++;
+                /**
+                 * Este segundo if, nos ayudará a controlar la recursividad de
+                 * este método, evitándonos crear un bucle.
+                 */
+                if (n < 3) {
+                    crearPadron();
+                } else {
+                    return;
+                }
             }
-        }
-        opcionesPadron();
-        }else{
+            opcionesPadron();
+        } else {
             System.out.println("Contraseña incorrecta");
             opcionesPadron();
         }
@@ -211,37 +202,99 @@ public class Sistema {
         System.out.println("Complete lo siguientes datos");
         System.out.println("Ingresa el numero de personas a capturar");
         int nPer = sc.nextInt();
-        String[][] personasTemp = new String[nPer][7];
-        String[][] datosPersonalesTemp = new String[nPer][4];
-        String[][] adicionesTemp = new String[nPer][3];
-        for (int i = 0; i < nPer; i++) {
-            System.out.println("Ingrese el o los nombres de pila ");
-            personasTemp[i][0] = Ssc.nextLine();
-            System.out.println("Ingrese el apellido paterno");
-            personasTemp[i][1] = Ssc.nextLine();
-            System.out.println("Ingrese el apellido materno");
-            personasTemp[i][2] = Ssc.nextLine();
-            Persona userTemp;
-            System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
-            personasTemp[i][6] = Ssc.nextLine();
-            personasTemp[i][3] = FuncionesStatic.calMes(personasTemp[i][6]);
-            personasTemp[i][4] = FuncionesStatic.calDias(personasTemp[i][6]);
-            personasTemp[i][5] = FuncionesStatic.calAño(personasTemp[i][6]);
-            datosPersonalesTemp[i][0] = funciones.calRFC(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][5], personasTemp[i][3], personasTemp[i][4]);
-            datosPersonalesTemp[i][1] = funciones.calEdad(personasTemp[i][5]);
-            datosPersonalesTemp[i][2] = funciones.tipoPersona(datosPersonalesTemp[i][1]);
-            datosPersonalesTemp[i][3] = funciones.calASCII(personasTemp[i][0]);
-            adicionesTemp[i][0] = funciones.calLetra(personasTemp[i][0]);
-            adicionesTemp[i][1] = funciones.calAyuda(datosPersonalesTemp[i][2]);
-            adicionesTemp[i][2] = funciones.calImporte(personasTemp[i][0], adicionesTemp[i][1]);
-            personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], datosPersonalesTemp[i][0]));
+        String[][] personasTemp;
+        String[][] datosPersonalesTemp;
+        String[][] adicionesTemp;
+        if (usuarioActivo.getNombres() == null) {
+            personasTemp = new String[nPer][7];
+            datosPersonalesTemp = new String[nPer][4];
+            adicionesTemp = new String[nPer][3];
+            for (int i = 0; i < nPer; i++) {
+
+                System.out.println("Ingrese el o los nombres de pila ");
+                personasTemp[i][0] = Ssc.nextLine();
+                System.out.println("Ingrese el apellido paterno");
+                personasTemp[i][1] = Ssc.nextLine();
+                System.out.println("Ingrese el apellido materno");
+                personasTemp[i][2] = Ssc.nextLine();
+                Persona userTemp;
+                System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
+                personasTemp[i][6] = Ssc.nextLine();
+                personasTemp[i][3] = FuncionesStatic.calMes(personasTemp[i][6]);
+                personasTemp[i][4] = FuncionesStatic.calDias(personasTemp[i][6]);
+                personasTemp[i][5] = FuncionesStatic.calAño(personasTemp[i][6]);
+                datosPersonalesTemp[i][0] = funciones.calRFC(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][5], personasTemp[i][3], personasTemp[i][4]);
+                datosPersonalesTemp[i][1] = funciones.calEdad(personasTemp[i][5]);
+                datosPersonalesTemp[i][2] = funciones.tipoPersona(datosPersonalesTemp[i][1]);
+                datosPersonalesTemp[i][3] = funciones.calASCII(personasTemp[i][0]);
+                adicionesTemp[i][0] = funciones.calLetra(personasTemp[i][0]);
+                adicionesTemp[i][1] = funciones.calAyuda(datosPersonalesTemp[i][2]);
+                adicionesTemp[i][2] = funciones.calImporte(personasTemp[i][0], adicionesTemp[i][1]);
+                personas.add(new Persona(personasTemp[i][0], personasTemp[i][1], personasTemp[i][2], personasTemp[i][6], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], datosPersonalesTemp[i][0]));
+
+            }
             usuarioActivo.setNombres(personasTemp);
             usuarioActivo.setDatosPersonales(datosPersonalesTemp);
             usuarioActivo.setAdiciones(adicionesTemp);
+            BaseDatos(usuarioActivo);
+            BaseDatosTablas(usuarioActivo);
+        } else {
+            ArrayList<ArrayList<String>> todosLosArreglosTemp = new ArrayList<ArrayList<String>>();
+            personasTemp = usuarioActivo.getNombres();
+            datosPersonalesTemp = usuarioActivo.getDatosPersonales();
+            adicionesTemp = usuarioActivo.getAdiciones();
+            // System.out.println("Esta es la longuitud de nuestro arreglo: "+test.length);
+            //ArrayList <String> list = Arrays.asList(test);
+            String Ntemp0, Ntemp1, Ntemp2, Ntemp3, Ntemp4, Ntemp5, Ntemp6;
+            String Dtemp0, Dtemp1, Dtemp2, Dtemp3;
+            String Atemp0, Atemp1, Atemp2;
+
+            for (int i = 0; i < personasTemp.length; i++) {
+                todosLosArreglosTemp.add(i, new ArrayList<String>(Arrays.asList(personasTemp[i][0], personasTemp[i][1],
+                        personasTemp[i][2], personasTemp[i][3], personasTemp[i][4], personasTemp[i][5], personasTemp[i][6],
+                        datosPersonalesTemp[i][0], datosPersonalesTemp[i][1], datosPersonalesTemp[i][2], datosPersonalesTemp[i][3],
+                        adicionesTemp[i][0], adicionesTemp[i][1], adicionesTemp[i][2])));
+
+            }
+            for (int j = 0; j < nPer; j++) {
+                System.out.println("Ingrese el o los nombres de pila ");
+                Ntemp0 = Ssc.nextLine();
+                System.out.println("Ingrese el apellido paterno");
+                Ntemp1 = Ssc.nextLine();
+                System.out.println("Ingrese el apellido materno");
+                Ntemp2 = Ssc.nextLine();
+                Persona userTemp;
+                System.out.println("Ingresa tu fecha de nacimiento en formato ddmmaaaa");
+                Ntemp6 = Ssc.nextLine();
+                Ntemp3 = FuncionesStatic.calMes(Ntemp6);
+                Ntemp4 = FuncionesStatic.calDias(Ntemp6);
+                Ntemp5 = FuncionesStatic.calAño(Ntemp6);
+                Dtemp0 = funciones.calRFC(Ntemp0, Ntemp1, Ntemp2, Ntemp5, Ntemp3, Ntemp4);
+                Dtemp1 = funciones.calEdad(Ntemp5);
+                Dtemp2 = funciones.tipoPersona(Dtemp1);
+                Dtemp3 = funciones.calASCII(Ntemp0);
+                Atemp0 = funciones.calLetra(Ntemp0);
+                Atemp1 = funciones.calAyuda(Dtemp2);
+                Atemp2 = funciones.calImporte(Ntemp0, Atemp1);
+                todosLosArreglosTemp.add(new ArrayList<String>(Arrays.asList(Ntemp0, Ntemp1, Ntemp2, Ntemp3, Ntemp4, Ntemp5,
+                        Ntemp6, Dtemp0, Dtemp1, Dtemp2, Dtemp3, Atemp0, Atemp1, Atemp2)));
+
+            }
+            personasTemp = funciones.conArrlNombre(todosLosArreglosTemp);
+            datosPersonalesTemp = funciones.conArrlDatos(todosLosArreglosTemp);
+            adicionesTemp = funciones.conArrlAddiciones(todosLosArreglosTemp);
+            usuarioActivo.setNombres(personasTemp);
+            usuarioActivo.setDatosPersonales(datosPersonalesTemp);
+            usuarioActivo.setAdiciones(adicionesTemp);
+            BaseDatosTablas(usuarioActivo);
+            for(int c = 0; c<personasTemp.length;c++){
+                System.out.println("Nombre "+personasTemp[c][0]);
+                System.out.println("RFC "+datosPersonalesTemp[c][0]);
+                System.out.println("Ayuda "+adicionesTemp[c][2]);
+            }
+
         }
-        usuarioActivo.setNombres(personasTemp);
-        BaseDatos(usuarioActivo);
-        BaseDatosTablas(usuarioActivo);
+        opcionesPadron();
     }
 
     public boolean buscarUser(String idUser, String contraseñaUser) {
