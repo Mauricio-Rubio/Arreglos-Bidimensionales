@@ -277,9 +277,21 @@ public class Sistema {
                 Atemp1 = funciones.calAyuda(Dtemp2);
                 Atemp2 = funciones.calImporte(Ntemp0, Atemp1);
                 todosLosArreglosTemp.add(new ArrayList<String>(Arrays.asList(Ntemp0, Ntemp1, Ntemp2, Ntemp3, Ntemp4, Ntemp5,
-                Ntemp6, Dtemp0, Dtemp1, Dtemp2, Dtemp3, Atemp0, Atemp1, Atemp2)));
+                        Ntemp6, Dtemp0, Dtemp1, Dtemp2, Dtemp3, Atemp0, Atemp1, Atemp2)));
+
             }
-            System.out.println("--->" + todosLosArreglosTemp);
+            personasTemp = funciones.conArrlNombre(todosLosArreglosTemp);
+            datosPersonalesTemp = funciones.conArrlDatos(todosLosArreglosTemp);
+            adicionesTemp = funciones.conArrlAddiciones(todosLosArreglosTemp);
+            usuarioActivo.setNombres(personasTemp);
+            usuarioActivo.setDatosPersonales(datosPersonalesTemp);
+            usuarioActivo.setAdiciones(adicionesTemp);
+            BaseDatosTablas(usuarioActivo);
+            for(int c = 0; c<personasTemp.length;c++){
+                System.out.println("Nombre "+personasTemp[c][0]);
+                System.out.println("RFC "+datosPersonalesTemp[c][0]);
+                System.out.println("Ayuda "+adicionesTemp[c][2]);
+            }
 
         }
         opcionesPadron();

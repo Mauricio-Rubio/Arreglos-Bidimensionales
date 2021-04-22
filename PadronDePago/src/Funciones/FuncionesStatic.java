@@ -1,5 +1,6 @@
 package Funciones;
 
+import java.util.ArrayList;
 import java.util.Random;
 import padrón.*;
 
@@ -103,5 +104,39 @@ public class FuncionesStatic {
         }
         return res;
     }
+    
+    public static String [ ] [ ] conArrlNombre(ArrayList<ArrayList<String>> arrPrincipal){
+        String [ ] [ ] res = new String[arrPrincipal.size()][7];
+        for(int i = 0; i<arrPrincipal.size(); i++){
+            res [i][0] = arrPrincipal.get(i).get(0);
+            res [i][1] = arrPrincipal.get(i).get(1);
+            res [i][2] = arrPrincipal.get(i).get(2);
+            res [i][3] = arrPrincipal.get(i).get(3);
+            res [i][4] = arrPrincipal.get(i).get(4);
+            res [i][5] = arrPrincipal.get(i).get(5);
+            res [i][6] = arrPrincipal.get(i).get(6);
+        }
+        return res;
+    }
+    public static String [ ] [ ] conArrlDatos(ArrayList<ArrayList<String>> arrPrincipal){
+        String [ ] [ ] res = new String[arrPrincipal.size()][4];
+        for(int i = 0; i<arrPrincipal.size(); i++){
+            res [i][0] = arrPrincipal.get(i).get(7);
+            res [i][1] = arrPrincipal.get(i).get(8);
+            res [i][2] = arrPrincipal.get(i).get(9);
+            res [i][3] = arrPrincipal.get(i).get(10);
+        }
+        return res;
+    }
+    public static String [ ] [ ] conArrlAddiciones(ArrayList<ArrayList<String>> arrPrincipal){
+        String [ ] [ ] res = new String[arrPrincipal.size()][3];
+        for(int i = 0; i<arrPrincipal.size(); i++){
+            res [i][0] = arrPrincipal.get(i).get(11);
+            res [i][1] = arrPrincipal.get(i).get(12);
+            res [i][2] = arrPrincipal.get(i).get(13);
+        }
+        return res;
+    }
+    
 
 }
